@@ -3,8 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TestCE.Entities
 {
-    public class ExchangeRates
+    public class ExchangeRates : IDisposable
     {
+        public void Dispose() { }
         public int Id { get; set; }
         [Display(Name = "From Currency")]
         public string FromCurrency { get; set; }

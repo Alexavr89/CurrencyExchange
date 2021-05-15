@@ -3,19 +3,10 @@
 
 // Write your JavaScript code.
 function Swap() {
-    var v1 = $('#my_select :selected').val(),
-        v2 = $('#TO :selected').val();
+    var v1 = $('#my_select option:selected').text(),
+        v2 = $('#TO option:selected').text();
     $('#my_select').val(v2);
     $('#TO').val(v1);
-    document.getElementById("currencyfrom").innerHTML = $('#my_select').val();
-    document.getElementById("currencyto").innerHTML = $('#TO').val();
-};
-
-function OnSelect() {
-    var a = $('#my_select :selected').val();
-    b = $('#TO :selected').val();
-    document.getElementById("currencyfrom").innerHTML = a;
-    document.getElementById("currencyto").innerHTML = b;
 };
 
 function filterFunction(id, idd) {
@@ -26,11 +17,11 @@ function filterFunction(id, idd) {
     for (i = 1; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td")[idd];
         txtValue = td.textContent || td.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-        } else {
-            tr[i].style.display = "none";
-        }
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
     }
 };
 
@@ -89,13 +80,22 @@ function Deserialization() {
     return c.toFixed(4);
 }
 
-function CalcValue() {
-    let amountfrom;
-    amountfrom = document.getElementById("fromamount").value;
-    document.getElementById("convertto").value = (amountfrom * Deserialization()).toFixed(2);
+function Exchange() {
+    let fc, tc, fa;
+    fc = $("#my_select option:selected").val();
+    tc = $("#TO option:selected").val();
+    fa = $("#fromamount").val();
+    $.ajax({
+        type: "POST",
+        url: '../Home/AddExchange',
+        data: {
+            FromCurrency: fc,
+            ToCurrency: tc,
+            FromAmount: fa
+        },
+        dataType: "json",
+        success: function () {
+            windows.load("../Home/Index");
+        }
+    });
 }
-
-function ChangeRate() {
-    document.getElementById("calculatedrate").innerHTML = " = " + Deserialization() + " ";
-}
-

@@ -4,20 +4,20 @@
     ViewData["Title"] = "Home Page";
 }
 
-<form method="post" asp-action="AddExchange" asp-controller="Home" id="ExchangeForm" asp-antiforgery="true">
+<form id="ExchangeForm" asp-antiforgery="true">
     <div class="main-div d-flex justify-content-center">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="right bottom">
             <label class="amount d-block control-label" asp-for="@Model.FromAmount">Amount</label>
-            <input id="fromamount" asp-for="@Model.FromAmount" class="form-control" onkeyup="CalcValue()" />
+            <input id="fromamount" asp-for="@Model.FromAmount" class="form-control" />
             <span asp-validation-for="@Model.FromAmount" class="text-danger"></span>
         </div>
         <div class="flex-column-reverse d-flex bottom" style="display:grid">
-            <select id="my_select" onclick="OnSelect()" name="my_select" class="form-control">
-                <option value="EUR">EUR</option>
-                <option value="USD">USD</option>
-                <option value="CHF">CHF</option>
-                <option value="GBP">GBP</option>
+            <select id="my_select" name="my_select" class="form-control">
+                <option value="EUR" data-imagesrc="Images/Europe-flag.png">EUR</option>
+                <option value="USD" data-imagesrc="Images/US-Flag.png">USD</option>
+                <option value="CHF" data-imagesrc="Images/Swiss-flag.png">CHF</option>
+                <option value="GBP" data-imagesrc="Images/Great-Britain-Flag.png">GBP</option>
             </select>
         </div>
         <div class="right flex-column-reverse d-flex">
@@ -31,56 +31,55 @@
             <span asp-validation-for="@Model.ToAmount" class="text-danger"></span>
         </div>
         <div class="d-flex flex-column-reverse bottom">
-            <select id="TO" onclick="OnSelect()" name="TO" class="form-control">
-                <option value="EUR">EUR</option>
-                <option value="USD">USD</option>
-                <option value="CHF">CHF</option>
-                <option value="GBP">GBP</option>
+            <select id="TO" name="TO" class="form-control">
+                <option value="EUR" data-imagesrc="Images/Europe-flag.png">EUR</option>
+                <option value="USD" data-imagesrc="Images/US-Flag.png">USD</option>
+                <option value="CHF" data-imagesrc="Images/Swiss-flag.png">CHF</option>
+                <option value="GBP" data-imagesrc="Images/Great-Britain-Flag.png">GBP</option>
             </select>
         </div>
     </div>
     <div class="right bottom d-flex justify-content-between">
         <label> 1 <span id="currencyfrom"></span><text style="color:#51c508;" id="calculatedrate"></text><span id="currencyto"></span></label>
-        <button class="btn btn-success" id="ExchangeBtn" type="submit" onclick="ChangeRate()">Exchange</button>
+        <button class="btn btn-success" onclick="Exchange()">Exchange</button>
     </div>
 </form>
-
 <table class="table table-bordered table-hovered" id="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => Model.Rates.First().Id)
-            <input id="input1" onkeyup="filterFunction('input1', '0')"/>
+            <input id="input1" onkeyup="filterFunction('input1', '0')" />
         </th>
         <th>
             @Html.DisplayNameFor(model => Model.Rates.First().FromCurrency)
-            <input id="input2" onkeyup="filterFunction('input2', '1')"/>
+            <input id="input2" onkeyup="filterFunction('input2', '1')" />
         </th>
         <th>
             @Html.DisplayNameFor(model => Model.Rates.First().FromAmount)
-            <input id="input3" onkeyup="filterFunction('input3', '2')"/>
+            <input id="input3" onkeyup="filterFunction('input3', '2')" />
         </th>
         <th>
             @Html.DisplayNameFor(model => Model.Rates.First().ToCurrency)
-            <input id="input4" onkeyup="filterFunction('input4', '3')"/>
+            <input id="input4" onkeyup="filterFunction('input4', '3')" />
         </th>
         <th>
             @Html.DisplayNameFor(model => Model.Rates.First().ToAmount)
-            <input id="input5" onkeyup="filterFunction('input5', '4')"/>
+            <input id="input5" onkeyup="filterFunction('input5', '4')" />
         </th>
         <th>
             @Html.DisplayNameFor(model => Model.Rates.First().Date)
-            <input id="input6" onkeyup="filterFunction('input6', '5')"/>
+            <input id="input6" onkeyup="filterFunction('input6', '5')" />
         </th>
     </tr>
-        @foreach (var models in Model.Rates)
-            {
-            <tr id="mainrow">
-                <td id="0">@models.Id</td>
-                <td id="1">@models.FromCurrency</td>
-                <td id="2">@models.FromAmount</td>
-                <td id="3">@models.ToCurrency</td>
-                <td id="4">@models.ToAmount</td>
-                <td id="5">@models.Date</td>
-            </tr>
-            }
+    @foreach (var models in Model.Rates)
+    {
+        <tr id="mainrow">
+            <td id="0">@models.Id</td>
+            <td id="1">@models.FromCurrency</td>
+            <td id="2">@models.FromAmount</td>
+            <td id="3">@models.ToCurrency</td>
+            <td id="4">@models.ToAmount</td>
+            <td id="5">@models.Date</td>
+        </tr>
+    }
 </table>

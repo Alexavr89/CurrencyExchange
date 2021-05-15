@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using NUnit.Framework;
 using System;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
-using System.Text.Json;
 using System.Threading.Tasks;
 using TestCE.Entities;
 using TestCE.Models;
@@ -26,46 +23,35 @@ namespace TestCE.Controllers
 
         public IActionResult Index()
         {
-            var model = CreateExchangeView();
+            ExchangeView model = new ExchangeView()
+            {
+                Rates = _context.Rates.ToList()
+            };
             return View(model);
         }
 
-        private ExchangeView CreateExchangeView()
-        {
-            return new ExchangeView
-            {
-                Rates = _context.Rates.ToList(),
-                CurrencyRate = UpdateCurrencyAPI()
-            };
-        }
         public IActionResult Privacy()
         {
             return View();
         }
 
-        public double UpdateCurrencyAPI()
-        {
-            var json = new WebClient().DownloadString("https://api.exchangeratesapi.io/latest");
-            var val = JsonSerializer.Deserialize<Deserialization>(json);
-            return val.rates.USD;
-        }
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddExchange([Bind("Id, Date, FromAmount, TO")] ExchangeRates rates)
+        public async Task<IActionResult> AddExchange(string FromCurrency, string ToCurrency, double FromAmount)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    rates.Date = DateTime.Now;
-                    rates.ToAmount = double.Parse(Request.Form["convertto"]);
-                    rates.FromCurrency = Request.Form["my_select"];
-                    rates.ToCurrency = Request.Form["TO"];
-                    _context.Rates.Add(rates);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Index", "Home");
+                        ExchangeRates rates = new ExchangeRates();
+                        rates.Date = DateTime.Now;
+                        rates.FromAmount = FromAmount;
+                        //ToAmount = double.Parse(Request.Form["convertto"]),
+                        rates.FromCurrency = FromCurrency;
+                        rates.ToCurrency = ToCurrency;
+                        _context.Rates.Add(rates);
+                        await _context.SaveChangesAsync();
                 }
+                return RedirectToAction("Index", "Home");
             }
             catch (DataException)
             {
