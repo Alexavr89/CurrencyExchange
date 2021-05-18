@@ -3,10 +3,10 @@
 
 // Write your JavaScript code.
 function Swap() {
-    var v1 = $('#my_select option:selected').text(),
-        v2 = $('#TO option:selected').text();
-    $('#my_select').val(v2);
-    $('#TO').val(v1);
+    var v1 = $('#my_select').html(),
+        v2 = $('#TO').html();
+    $('#my_select').html(v2);
+    $('#TO').html(v1);
 };
 
 function filterFunction(id, idd) {
@@ -32,8 +32,8 @@ function Deserialization() {
     access_key = 'API_KEY';
 
     // define from currency, to currency, and amount
-    from = $("#my_select option:selected").val().toString();
-    to = $("#TO option:selected").val().toString();
+    from = $("#my_select").children('img').attr('data-value').toString();
+    to = $("#TO").children('img').attr('data-value').toString();
     amount = $("#fromamount").val().toString();
 
     // execute the conversion using the "convert" endpoint:
@@ -54,8 +54,8 @@ function Deserialization() {
 function Exchange() {
     event.preventDefault();
     let fc, tc, fa;
-    fc = $("#my_select option:selected").val();
-    tc = $("#TO option:selected").val();
+    fc = $("#my_select").children('img').attr('data-value');
+    tc = $("#TO").children('img').attr('data-value');
     fa = $("#fromamount").val();
     Deserialization();
     $.post('../Home/AddExchange',
@@ -79,6 +79,14 @@ function Exchange() {
         }),
         "json"
 }
-            
 
+$(".dropdown-menu li").click(function () {
+    var select = $(this).html();
+    var buttonid = $(this).closest('div').children('button').attr('id');
+    if (buttonid === 'my_select') {
+        $('#my_select.dropdown-toggle').html(select);
+    } else {
+        $('#TO.dropdown-toggle').html(select);
+    }
+});
 

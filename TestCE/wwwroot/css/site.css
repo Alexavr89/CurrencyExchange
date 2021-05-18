@@ -99,6 +99,5 @@ div.bottom {
 
 #my_select, #TO {
     -webkit-appearance: none;
-    background: url(../Images/DropDownArrow.JPG) no-repeat right #fff;
     width: 86px;
 }

@@ -13,12 +13,34 @@
             <span asp-validation-for="@Model.FromAmount" class="text-danger"></span>
         </div>
         <div class="flex-column-reverse d-flex bottom" style="display:grid">
-            <select id="my_select" name="my_select" class="form-control">
-                <option value="EUR" data-imagesrc="Images/Europe-flag.png">EUR</option>
-                <option value="USD" data-imagesrc="Images/US-Flag.png">USD</option>
-                <option value="CHF" data-imagesrc="Images/Swiss-flag.png">CHF</option>
-                <option value="GBP" data-imagesrc="Images/Great-Britain-Flag.png">GBP</option>
-            </select>
+            <button class="btn btn-light
+                    dropdown-toggle" type="button"
+                    id="my_select"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                <img src="~/Images/Europe-flag.png"
+                     width="20" height="15" data-value="EUR">  EUR
+            </button>
+            <ul class="dropdown-menu"
+                aria-labelledby="my_select">
+                <li class="dropdown-item">
+                    <img src="~/Images/Europe-flag.png"
+                         width="20" height="15" data-value="EUR"> EUR
+                </li>
+                <li class="dropdown-item">
+                    <img src="~/Images/US-Flag.png"
+                         width="20" height="15" data-value="USD"> USD
+                </li>
+                <li class="dropdown-item">
+                    <img src="~/Images/Great-Britain-Flag.png"
+                         width="20" height="15" data-value="GBP"> GBP
+                </li>
+                <li class="dropdown-item">
+                    <img src="~/Images/Swiss-flag.png"
+                         width="20" height="15" data-value="CHF"> CHF
+                </li>
+            </ul>
         </div>
         <div class="right flex-column-reverse d-flex">
             <submit type="button" onclick="Swap()">
@@ -31,12 +53,34 @@
             <span asp-validation-for="@Model.ToAmount" class="text-danger"></span>
         </div>
         <div class="d-flex flex-column-reverse bottom">
-            <select id="TO" name="TO" class="form-control">
-                <option value="EUR" data-imagesrc="Images/Europe-flag.png">EUR</option>
-                <option value="USD" data-imagesrc="Images/US-Flag.png">USD</option>
-                <option value="CHF" data-imagesrc="Images/Swiss-flag.png">CHF</option>
-                <option value="GBP" data-imagesrc="Images/Great-Britain-Flag.png">GBP</option>
-            </select>
+            <button class="btn btn-light
+                    dropdown-toggle" type="button"
+                    id="TO"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                <img src="~/Images/Europe-flag.png"
+                     width="20" height="15" data-value="EUR">  EUR
+            </button>
+            <ul class="dropdown-menu"
+                aria-labelledby="my_select">
+                <li class="dropdown-item">
+                    <img src="~/Images/Europe-flag.png"
+                         width="20" height="15" data-value="EUR"> EUR
+                </li>
+                <li class="dropdown-item">
+                    <img src="~/Images/US-Flag.png"
+                         width="20" height="15" data-value="USD"> USD
+                </li>
+                <li class="dropdown-item">
+                    <img src="~/Images/Great-Britain-Flag.png"
+                         width="20" height="15" data-value="GBP"> GBP
+                </li>
+                <li class="dropdown-item">
+                    <img src="~/Images/Swiss-flag.png"
+                         width="20" height="15" data-value="CHF"> CHF
+                </li>
+            </ul>
         </div>
     </div>
     <div class="right bottom d-flex justify-content-between">
