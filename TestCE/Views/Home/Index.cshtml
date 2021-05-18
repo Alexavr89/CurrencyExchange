@@ -9,7 +9,7 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="right bottom">
             <label class="amount d-block control-label" asp-for="@Model.FromAmount">Amount</label>
-            <input id="fromamount" asp-for="@Model.FromAmount" class="form-control" />
+            <input id="fromamount" asp-for="@Model.FromAmount" class="form-control">
             <span asp-validation-for="@Model.FromAmount" class="text-danger"></span>
         </div>
         <div class="flex-column-reverse d-flex bottom" style="display:grid">
@@ -27,7 +27,7 @@
         </div>
         <div class="right bottom d-block">
             <label class="convertto d-block" asp-for="@Model.ToAmount">Convert To</label>
-            <input id="convertto" name="convertto" asp-for="@Model.ToAmount" class="form-control"/>
+            <input id="convertto" name="convertto" asp-for="@Model.ToAmount" class="form-control">
             <span asp-validation-for="@Model.ToAmount" class="text-danger"></span>
         </div>
         <div class="d-flex flex-column-reverse bottom">

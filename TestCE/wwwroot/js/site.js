@@ -26,76 +26,59 @@ function filterFunction(id, idd) {
 };
 
 function Deserialization() {
-    let link, request;
-    link = 'https://api.exchangeratesapi.io/latest';
-    request = new XMLHttpRequest();
-    request.open('GET', link);
-    request.responseType = 'json';
-    request.send();
-    request.onload = function GetRate() {
-        responseObj = request.response;
-        let q = responseObj.rates;
-        a = $('#my_select :selected')[0].getAttribute("value");
-        b = $('#TO :selected')[0].getAttribute("value");
-        if (a == 'EUR') {
-            switch (b) {
-                case 'USD':
-                    return c = q.USD;
-                case 'GBP':
-                    return c = q.GBP;
-                case 'CHF':
-                    return c = q.CHF;
-            }
-        } else if (a == 'GBP') {
-            switch (b) {
-                case 'EUR':
-                    return c = 1 / q.GBP;
-                case 'USD':
-                    return c = q.USD / q.GBP;
-                case 'CHF':
-                    return c = q.CHF / q.GBP;
-            }
-        } else if (a == 'USD') {
-            switch (b) {
-                case 'EUR':
-                    return c = 1 / q.USD;
-                case 'GBP':
-                    return c = q.GBP / q.USD;
-                case 'CHF':
-                    return c = q.CHF / q.USD;
-            }
-        } else if (a == 'CHF') {
-            switch (b) {
-                case 'EUR':
-                    return c = 1 / q.CHF;
-                case 'GBP':
-                    return c = q.GBP / q.CHF;
-                case 'USD':
-                    return c = q.USD / q.CHF;
-            }
-        } else if (a == b) {
-            return c = 1;
+    let endpoint, access_key, from, to, amount, rate;
+    // set endpoint and your API key
+    endpoint = 'convert';
+    access_key = 'API_KEY';
+
+    // define from currency, to currency, and amount
+    from = $("#my_select option:selected").val().toString();
+    to = $("#TO option:selected").val().toString();
+    amount = $("#fromamount").val().toString();
+
+    // execute the conversion using the "convert" endpoint:
+    $.ajax({
+        url: 'https://api.exchangeratesapi.io/v1/' + endpoint + '?access_key=' + access_key + '&from=' + from + '&to=' + to + '&amount=' + amount,
+        dataType: 'jsonp',
+        success: function (json) {
+            // access the conversion result in json.result
+            $('#convertto').val(json.result);
+            rate = (json.result / amount).toFixed(4);
+            $('#calculatedrate').text(rate);
+            $('#currencyfrom').text(from);
+            $('#currencyto').text(to);
         }
-    }
-    return c.toFixed(4);
+    });
 }
 
 function Exchange() {
+    event.preventDefault();
     let fc, tc, fa;
     fc = $("#my_select option:selected").val();
     tc = $("#TO option:selected").val();
     fa = $("#fromamount").val();
-    $.ajax({
-        type: "POST",
-        url: '../Home/AddExchange',
-        data: {
+    Deserialization();
+    $.post('../Home/AddExchange',
+        {
             FromCurrency: fc,
             ToCurrency: tc,
             FromAmount: fa
-        },
-        dataType: "json",
-        success: function () {
-            windows.load("../Home/Index");
-        }
-    });
+        }).done(function () {
+            $.getJSON("../Home/GetLastPost", function (data) {
+                var table_value = '';
+                table_value += '<tr>';
+                table_value += '<td>' + data.Id + '</td>';
+                table_value += '<td>' + data.FromCurrency + '</td>';
+                table_value += '<td>' + data.FromAmount + '</td>';
+                table_value += '<td>' + data.ToCurrency + '</td>';
+                table_value += '<td>' + data.ToAmount + '</td>';
+                table_value += '<td>' + data.Date + '</td>';
+                table_value += '</tr>';
+                $("#table").append(table_value);
+            })
+        }),
+        "json"
 }
+            
+
+

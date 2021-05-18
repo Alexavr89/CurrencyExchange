@@ -4,6 +4,7 @@ using System;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TestCE.Entities;
 using TestCE.Models;
@@ -29,14 +30,18 @@ namespace TestCE.Controllers
             };
             return View(model);
         }
-
+        public string GetLastPost()
+        {
+            var JsonString = JsonSerializer.Serialize(_context.Rates.OrderByDescending(p => p.Id).FirstOrDefault());
+            return JsonString;
+        }
         public IActionResult Privacy()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddExchange(string FromCurrency, string ToCurrency, double FromAmount)
+        public async Task AddExchange(string FromCurrency, string ToCurrency, double FromAmount)
         {
             try
             {
@@ -51,13 +56,11 @@ namespace TestCE.Controllers
                         _context.Rates.Add(rates);
                         await _context.SaveChangesAsync();
                 }
-                return RedirectToAction("Index", "Home");
             }
             catch (DataException)
             {
                 ModelState.AddModelError("", "Try again later...");
             }
-            return RedirectToAction("Index", "Home");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
