@@ -50,7 +50,6 @@ namespace TestCE.Controllers
                         ExchangeRates rates = new ExchangeRates();
                         rates.Date = DateTime.Now;
                         rates.FromAmount = FromAmount;
-                        //ToAmount = double.Parse(Request.Form["convertto"]),
                         rates.FromCurrency = FromCurrency;
                         rates.ToCurrency = ToCurrency;
                         _context.Rates.Add(rates);
