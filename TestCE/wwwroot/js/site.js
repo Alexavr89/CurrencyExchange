@@ -57,27 +57,31 @@ function Exchange() {
     fc = $("#my_select").children('img').attr('data-value');
     tc = $("#TO").children('img').attr('data-value');
     fa = $("#fromamount").val();
-    Deserialization();
-    $.post('../Home/AddExchange',
-        {
-            FromCurrency: fc,
-            ToCurrency: tc,
-            FromAmount: fa
-        }).done(function () {
-            $.getJSON("../Home/GetLastPost", function (data) {
-                var table_value = '';
-                table_value += '<tr>';
-                table_value += '<td>' + data.Id + '</td>';
-                table_value += '<td>' + data.FromCurrency + '</td>';
-                table_value += '<td>' + data.FromAmount + '</td>';
-                table_value += '<td>' + data.ToCurrency + '</td>';
-                table_value += '<td>' + data.ToAmount + '</td>';
-                table_value += '<td>' + data.Date + '</td>';
-                table_value += '</tr>';
-                $("#table").append(table_value);
-            })
-        }),
-        "json"
+    if (fa === "0") {
+        $('span').text("This field is required");
+    } else {
+        Deserialization();
+        $.post('../Home/AddExchange',
+            {
+                FromCurrency: fc,
+                ToCurrency: tc,
+                FromAmount: fa
+            }).done(function () {
+                $.getJSON("../Home/GetLastPost", function (data) {
+                    var table_value = '';
+                    table_value += '<tr>';
+                    table_value += '<td>' + data.Id + '</td>';
+                    table_value += '<td>' + data.FromCurrency + '</td>';
+                    table_value += '<td>' + data.FromAmount + '</td>';
+                    table_value += '<td>' + data.ToCurrency + '</td>';
+                    table_value += '<td>' + data.ToAmount + '</td>';
+                    table_value += '<td>' + data.Date + '</td>';
+                    table_value += '</tr>';
+                    $("#table").append(table_value);
+                })
+            }),
+            "json"
+    }
 }
 
 $(".dropdown-menu li").click(function () {
