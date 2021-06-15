@@ -53,12 +53,16 @@ function Deserialization() {
 
 function Exchange() {
     event.preventDefault();
-    let fc, tc, fa;
+    let fc, tc, fa, mb;
     fc = $("#my_select").children('img').attr('data-value');
     tc = $("#TO").children('img').attr('data-value');
     fa = $("#fromamount").val();
+    mb = "24px";
     if (fa === "0") {
         $('span').text("This field is required");
+        $("#my_select").css("margin-bottom", mb);
+        $('submit').css("margin-bottom", mb);
+        $("#TO").css("margin-bottom", mb);
     } else {
         Deserialization();
         $.post('../Home/AddExchange',
