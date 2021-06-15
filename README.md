@@ -6,3 +6,4 @@ Features:
  - Table search filters;
  - Using 3rd party API for currency rate;
  - Jquery, C# MVC, .NET Core
+ - After registration use your API data
